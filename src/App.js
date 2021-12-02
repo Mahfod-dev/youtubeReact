@@ -7,10 +7,12 @@ import SearchBar from './components/SearchBar'
 import youtube from './api/youtube'
 
 import VideoList from './components/VideoList'
+import VideoDetails from './components/VideoDetails'
 
 class App extends Component {
 	state = {
 		videos: [],
+		selectedVideo: null,
 	}
 
 	onTermSubmit = async (term) => {
@@ -22,13 +24,20 @@ class App extends Component {
 
 		this.setState({ videos: response.data.items })
 	}
+	onVideoSelect = (video) => {
+		this.setState({ selectedVideo: video })
+	}
 
 	render() {
 		console.log(this.state.videos)
 		return (
 			<div className='ui container'>
 				<SearchBar onTermSubmit={this.onTermSubmit} />
-				<VideoList videos={this.state.videos} />
+				<VideoDetails />
+				<VideoList
+					onVideoSelect={this.onVideoSelect}
+					videos={this.state.videos}
+				/>
 			</div>
 		)
 	}
